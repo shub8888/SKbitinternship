@@ -1,41 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <style>
-        .centered{
-            position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      text-align: center;
-        }
-        .img {
-            display: flex;
-      justify-content: center;
-      align-items: center;
-        }
-    </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Account Login</title>
+    <style>
+        .centered {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+        
+      .img img {
+    margin: 0 10px;
+} 
+
+    </style>
 </head>
 <body>
     <div class="centered">
-    <h1 style="height: 80px;">Account Login</h1>
+        <h1 style="height: 80px;">Account Login</h1>
 
-    <form action="/submit-login"method="post">
-        <label for="Enter your Mobile No.">Enter your Mobile No.</label><br>
-        <input type="number" id="number" name="number" required><br><br>
-        <input type="submit"value="submit" style="width: 150px; height: 30px; font-size: 16px; 
-        color: aliceblue;background-color: blue;">
-        <p>Do you have an account ?<a href="">Sign up here</a></p>
-        <p style="align-content: center;">or</p>
-   <p style="align-items: last baseline;"> <img src="google.png" alt="Google G" alt="Google Logo"width="30">
-       <img src="facebook.jpg" alt="Facebook Logo" width="40">   
-       <img src="x.png" alt="twitter" width="40">
-</p>
-    </form>
-     
-</div>
+        <form id="loginForm">
+            <label for="number">Enter your Mobile No.</label><br>
+            <input type="number" id="number" name="number" required><br><br>
+
+            <input type="submit" value="Submit" style="width: 150px; height: 30px; font-size: 16px; color: aliceblue; background-color: blue;">
+            
+            <p>Do you have an account? <a href="#">Sign up here</a></p>
+            <p style="text-align: center;">or</p>
+            <p class="img">
+                <img src="google.png" alt="Google Logo" width="30">
+                <img src="facebook.jpg" alt="Facebook Logo" width="40">   
+                <img src="x.png" alt="Twitter Logo" width="40">
+            </p>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent form submission
+
+            const number = document.getElementById("number").value;
+
+            if (/^\d{10}$/.test(number)) {
+                // If valid 10-digit number, redirect to OTP page
+                window.location.href = "OTP.html";
+            } else {
+                alert("Please enter a valid 10-digit mobile number.");
+            }
+        });
+    </script>
 </body>
 </html>
