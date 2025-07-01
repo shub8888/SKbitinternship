@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Account Login</title>
+<style>
+        .centered {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+        
+      .img img {
+    margin: 0 10px;
+} 
+
+    </style>
+</head>
+<body>
+<div class="centered">
+<h1 class="cls2">Account Login</h1>
+<form id="loginForm">
+<label for="number">Enter your Mobile No.</label><br/>
+<input id="number" name="number" required="" type="number"/><br/><br/>
+<input class="cls3" type="submit" value="Submit"/>
+<p>Do you have an account? <a href="#">Sign up here</a></p>
+<p class="cls4">or</p>
+<p class="img">
+<img alt="Google Logo" src="images.png" width="30"/>
+<img alt="Facebook Logo" src="facebook.jpeg" width="40"/>
+<img alt="Twitter Logo" src="x.png" width="40"/>
+</p>
+</form>
+</div>
+<script>
+        document.getElementById("loginForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent form submission
+
+            const number = document.getElementById("number").value;
+
+            if (/^\d{10}$/.test(number)) {
+                // If valid 10-digit number, redirect to OTP page
+                window.location.href = "OTP.html";
+            } else {
+                alert("Please enter a valid 10-digit mobile number.");
+            }
+        });
+    </script>
+</body>
+</html>

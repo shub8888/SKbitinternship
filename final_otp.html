@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>OTP Verification</title>
+<style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff;
+      padding: 2rem;
+      color: #1a1a1a;
+    }
+
+    a.back-link {
+      color: #2563eb;
+      text-decoration: none;
+      font-size: 0.9rem;
+      display: inline-block;
+      margin-bottom: 1.5rem;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 2rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .otp-inputs {
+      display: flex;
+      gap: 10px;
+    }
+
+    .otp-inputs input {
+      width: 3rem;
+      height: 3rem;
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 5px;
+    }
+
+    .otp-inputs input:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.3);
+      outline: none;
+    }
+
+    .resend-section {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+    }
+
+    .resend-time {
+      color: #e9d30e;
+      margin-left: 0.3rem;
+    }
+
+    .submit-btn {
+        text-align: center;
+      width: 37%;
+      padding: 0.75rem;
+      background-color: #2563eb;
+      color: white;
+      font-size: 1rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .submit-btn:disabled {
+      background-color: #5c73be;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+<a class="back-link" href="index.html">← Back</a>
+<h1>OTP Verification</h1>
+<form id="otp-form" onsubmit="return false;">
+<div class="form-group">
+<label>Enter OTP</label>
+<div class="otp-inputs">
+<input maxlength="1" type="text"/>
+<input maxlength="1" type="text"/>
+<input maxlength="1" type="text"/>
+<input maxlength="1" type="text"/>
+</div>
+</div>
+<div class="resend-section">
+      Resend OTP in <span class="resend-time" id="resend-timer">1:10</span>
+</div>
+<button class="submit-btn" disabled="" id="submit-btn">Submit</button>
+</form>
+<script>
+  const timerDisplay = document.getElementById("resend-timer");
+  const submitBtn = document.getElementById("submit-btn");
+  const otpInputs = document.querySelectorAll(".otp-inputs input");
+  let timeLeft = 70;
+
+  
+  function formatTime(seconds) {
+    const min = Math.floor(seconds / 60);
+    const sec = seconds % 60;
+    return `${min}:${sec < 10 ? '0' + sec : sec}`;
+  }
+
+
+  const timer = setInterval(() => {
+    timeLeft--;
+    timerDisplay.textContent = formatTime(timeLeft);
+    if (timeLeft <= 0) {
+      clearInterval(timer);
+      timerDisplay.textContent = "00:00";
+    }
+  }, 1000);
+
+ 
+  function checkOTPInputs() {
+    const allFilled = Array.from(otpInputs).every(input => input.value.length === 1);
+    submitBtn.disabled = !allFilled;
+  }
+
+
+  otpInputs.forEach((input, index) => {
+    input.addEventListener("input", (e) => {
+      const value = e.target.value;
+
+     
+      if (!/^\d$/.test(value)) {
+        e.target.value = ""; // Clear if not a digit
+        return;
+      }
+
+     
+      if (value && index < otpInputs.length - 1) {
+        otpInputs[index + 1].focus();
+      }
+
+      checkOTPInputs();
+    });
+
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Backspace") {
+        if (input.value === "" && index > 0) {
+          otpInputs[index - 1].focus();
+        }
+      } else if (e.key >= "0" && e.key <= "9") {
+        input.value = ""; 
+      }
+    });
+  });
+
+  // Submit button action
+  submitBtn.addEventListener("click", () => {
+    const otp = Array.from(otpInputs).map(input => input.value).join("");
+    alert("Entered OTP: " + otp);
+    // Redirect to index.html or handle OTP verification
+    window.location.href = "index.html";
+  });
+</script>
+</body>
+</html>
